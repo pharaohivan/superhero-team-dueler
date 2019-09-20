@@ -16,6 +16,17 @@ class Armor:
     def block(self):
         return random.randint(0, self.max_block)
 
+class Hero:
+    def __init__(self, name, starting_health=100):
+        self.abilities = [""]
+        self.armors = [""]
+        self.name = name
+        self.starting_health = starting_health
+        self.current_health = 100
+
+pass
+
+
 
 
 
@@ -33,6 +44,6 @@ class Armor:
 
 if __name__ == "__main__":
 
-    armor = Armor("shield", 10)
-    print(armor.name)
-    print(armor.block())
+    my_hero = Hero("Grace Hopper", 200)
+    print(my_hero.name)
+    print(my_hero.current_health)
