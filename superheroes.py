@@ -24,13 +24,15 @@ class Hero:
         self.starting_health = starting_health
         self.current_health = 100
 
-        pass
-
     def add_ability(self, ability):
         self.abilities.append(ability)
 
-    pass
+    def attack(self):
+        damage = 0
 
+        for ability in self.abilities:
+            damage = ability.attack() + damage
+        return damage
 
 
 
@@ -49,6 +51,8 @@ class Hero:
 if __name__ == "__main__":
 
     ability = Ability("Great Debugging", 50)
+    another_ability = Ability("Smarty Pants", 90)
     hero = Hero("Grace Hopper", 200)
     hero.add_ability(ability)
-    print(hero.abilities)
+    hero.add_ability(another_ability)
+    print(hero.attack())
