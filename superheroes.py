@@ -34,6 +34,18 @@ class Hero:
             damage = ability.attack() + damage
         return damage
 
+    def add_armor(self, armor):
+        self.armors.append(armor)
+
+    def defend(self, damage):
+        total_block = 0
+        for i in self.armors:
+            total_block += i.block()
+        return total_block
+
+    def take_damage(self, damage):
+        self.current_health -= (damage - self.defend(damage))
+
 
 
 
@@ -50,9 +62,9 @@ class Hero:
 
 if __name__ == "__main__":
 
-    ability = Ability("Great Debugging", 50)
-    another_ability = Ability("Smarty Pants", 90)
+
     hero = Hero("Grace Hopper", 200)
-    hero.add_ability(ability)
-    hero.add_ability(another_ability)
-    print(hero.attack())
+    shield = Armor("Shield", 50)
+    hero.add_armor(shield)
+    hero.take_damage(50)
+    print(hero.current_health)
