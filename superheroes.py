@@ -1,4 +1,5 @@
 import random
+
 class Ability:
     def __init__(self, name, attack_strength):
         self.name = name
@@ -32,6 +33,8 @@ class Hero:
         self.name = name
         self.starting_health = starting_health
         self.current_health = starting_health
+        self.kills = 0
+        self.kills = 0
 
     def add_ability(self, ability):
 
@@ -45,7 +48,9 @@ class Hero:
         damage = 0
 
         for ability in self.abilities:
-            return ability.attack()
+            damage += ability.attack()
+
+        return damage
 
     def add_armor(self, armor):
 
@@ -94,16 +99,28 @@ class Hero:
 class Team:
 
     def __init__(self, team_name):
-        self.teamname = team_name
+        self.name = team_name
         self.heroes = []
 
-    def addhero(self, hero):
-        self.addhero = hero
+    def add_hero(self, hero):
+        self.heroes.append(hero)
 
-    def removehero(self, name):
-        self.removehero = name
+    def remove_hero(self, name):
+        findhero = False
+        for hero in self.heroes:
+            if name == hero.name:
+                findhero = True
+                self.heroes.remove(hero)
 
-    def viewallheroes(self):
+        if findhero == False:
+            return 0
+
+    def view_all_heroes(self):
+        all_heroes = []
+        for hero in self.heroes:
+            all_heroes.append(hero.name)
+        print(all_heroes)
+        return all_heroes
 
 
 
@@ -115,13 +132,21 @@ if __name__ == "__main__":
         # this block is executed.
 
     hero1 = Hero("Wonder Woman", 1000)
-    hero2 = Hero("Dumbledore", 1000)
+    # hero2 = Hero("Dumbledore", 1000)
     ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
+    # ability2 = Ability("Super Eyes", 130)
+    # ability3 = Ability("Wizard Wand", 80)
+    # ability4 = Ability("Wizard Beard", 20)
     hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
+    # hero1.add_ability(ability2)
+    # hero2.add_ability(ability3)
+    # hero2.add_ability(ability4)
+    # hero1.fight(hero2)
+    # team = Team('TEam')
+    # team.add_hero(hero1)
+    # team.add_hero(hero2)
+    # team.view_all_heroes()
+    test = []
+    test.append(hero1.name)
+    test.append(hero2.name)
+    print(test)
