@@ -1,4 +1,5 @@
 import random
+from random import choice
 
 class Ability:
     def __init__(self, name, attack_strength):
@@ -34,7 +35,7 @@ class Hero:
         self.starting_health = starting_health
         self.current_health = starting_health
         self.kills = 0
-        self.kills = 0
+        self.deaths = 0
 
     def add_ability(self, ability):
 
@@ -89,12 +90,27 @@ class Hero:
             opponent_attack = opponent.attack()
             self.take_damage(opponent_attack)
             opponent.take_damage(hero_attack)
+
         if self.is_alive() == False:
             print(f'{opponent.name} won')
+            self.add_deaths(1)
+            opponent.add_kill(1)
+
         elif opponent.is_alive() == False:
             print(f'{self.name} won')
+            self.add_kill(1)
+            opponent.add_deaths(1)
+
         elif self.is_alive() == False and opponent_attack == False:
             print('Draw')
+
+
+
+    def add_kill(self, num_kills):
+        self.kills += num_kills
+
+    def add_deaths(self, num_deaths):
+        self.deaths += num_deaths
 
 class Team:
 
@@ -121,6 +137,27 @@ class Team:
             all_heroes.append(hero.name)
         print(all_heroes)
         return all_heroes
+
+    def attack(self, other_team):
+        fighting = True
+        team_one = []
+        team_two = []
+
+        while fighting:
+            team_one.clear()
+            team_two.clear()
+            for hero in self.heroes:
+                if hero.is_alive():
+                    team_one.append(hero)
+            for hero in other_team.heroes:
+                if hero.is_alive():
+                    team_two.append(hero)
+            if len(team_one) <= 0 or len(team_two) <= 0:
+                fighting = False
+            else:
+                hero_one = choice(team_one)
+                hero_two = choice(team_two)
+                hero_one.fight(hero_two)
 
 
 
