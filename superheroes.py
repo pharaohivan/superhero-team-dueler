@@ -112,6 +112,9 @@ class Hero:
     def add_deaths(self, num_deaths):
         self.deaths += num_deaths
 
+    def add_weapon(self, weapon):
+        self.abilities.append(weapon)
+
 class Team:
 
     def __init__(self, team_name):
@@ -159,10 +162,71 @@ class Team:
                 hero_two = choice(team_two)
                 hero_one.fight(hero_two)
 
+class Arena:
+    def __init__(self):
+        self.team_one = None
+        self.team_two = None
 
+    def create_ability(self):
+        name = input("Enter name of hero's ability")
+        strength = int(input("Enter the attack strength: "))
+        return Ability(name, strength)
 
+    def create_weapon(self):
+        name = input("Enter name of hero's weapon: ")
+        strength = input("Enter weapon strength: ")
+        return Weapon(name, int(strength))
 
+    def create_armor(self):
+        name = input("Enter the name of your new armor: ")
+        block = int(input("Enter armor blocking power: "))
+        return Armor(name, block)
 
+    def prompt(self, hero, attribute):
+        choice = ""
+        while not (choice == "N" or choice == "n"):
+            choice = input(f"Do you want to add a new {attribute} (Y/N)?")
+            if (choice == "Y" or choice == "y") and attribute == "ability":
+                new_ability = self.create_ability()
+                hero.add_ability(new_ability)
+            elif (choice == "Y" or choice == "y") and attribute == "weapon":
+                new_weapon = self.create_weapon()
+                hero.add_ability(new_weapon)
+            elif (choice == "Y" or choice == "y") and attribute == "armor":
+                new_armor = self.create_armor()
+                hero.add_armor(new_armor)
+
+    def create_hero(self):
+        name = input("Enter a name for your new hero: ")
+        new_hero = Hero(name)
+
+        self.prompt(new_hero, "ability")
+        self.prompt(new_hero, "weapon")
+        self.prompt(new_hero, "armor")
+
+        return new_hero
+
+    def build_team_one(self):
+        team_one_name = input("Enter Team One name: ")
+        self.team_one = Team(team_one_name)
+        team_size = input("Enter size of Team One: ")
+
+        heroes_added = 0
+        while heroes_added < int(team_size):
+            new_team_player = self.create_hero()
+            self.team_one.add_hero(new_team_player)
+            heroes_added += 1
+
+    def build_team_two(self):
+        team_two_name = input("Enter Team Two name: ")
+        self.team_two = Team(team_two_name)
+        team_size = input("Enter size of Team Two: ")
+
+        heroes_added = 0
+        while heroes_added < int(team_size):
+            new_team_player = self.create_hero()
+            self.team_two.add_hero(new_team_player)
+            heroes_added += 1
 
 if __name__ == "__main__":
         # If you run this file from the terminal
