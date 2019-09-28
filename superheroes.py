@@ -1,6 +1,10 @@
 import random
 from random import choice
 
+def divide():
+    print("----------------------------------------")
+
+
 class Ability:
     def __init__(self, name, attack_strength):
         self.name = name
@@ -162,6 +166,26 @@ class Team:
                 hero_two = choice(team_two)
                 hero_one.fight(hero_two)
 
+    def stats(self):
+        print("Statistics: ")
+        ratios = list()
+        for hero in self.heroes:
+            if not hero.deaths == 0:
+                ratio = hero.kills/hero.deaths
+                ratios.append(ratio)
+                print(f"{hero.name}: {ratio}")
+        else:
+            print(f"{hero.name}: No deaths")
+
+        sum = 0
+        for ratio in ratios:
+            sum += ratio
+        if not len(ratios) == 0:
+            avg = sum/len(ratios)
+            print(f"Avg. kill/death ratio: {avg}")
+        else:
+            print("Avg. kill/death ratio: N/A")
+
 class Arena:
     def __init__(self):
         self.team_one = None
@@ -228,17 +252,66 @@ class Arena:
             self.team_two.add_hero(new_team_player)
             heroes_added += 1
 
+    def team_battle(self):
+        self.team_one.attack(self.team_two)
+
+    def show_stats(self):
+        alive_team_one_heroes_names = list()
+        alive_team_two_heroes_names = list()
+
+        alive_team_one_heroes = 0
+        for hero in self.team_one.heroes:
+            if hero.is_alive():
+                alive_team_one_heroes += 1
+                alive_team_one_heroes_names.append(hero.name)
+
+        alive_team_two_heroes = 0
+        for hero in self.team_two.heroes:
+            if hero.is_alive():
+                alive_team_two_heroes += 1
+                alive_team_two_heroes_names.append(hero.name)
+
+        if alive_team_one_heroes > alive_team_two_heroes:
+            print("Team One wins!")
+            divide()
+        elif alive_team_two_heroes > alive_team_one_heroes:
+            divide()
+            print("Team Two wins!")
+            divide()
+
+        else:
+            print("Draw!")
+            divide()
+
+        print("Team One Stats:")
+        self.team_one.stats()
+        print("Surviving Heroes from Team One:")
+        for name in alive_team_one_heroes_names:
+            print(name)
+        divide()
+
+        print("Team Two Stats: ")
+        self.team_two.stats()
+        print("Surviving Heroes from Team Two")
+        divide()
+        for name in alive_team_two_heroes_names:
+            print(name)
+
+
+
+
+
 if __name__ == "__main__":
         # If you run this file from the terminal
         # this block is executed.
 
-    hero1 = Hero("Wonder Woman", 1000)
+    # hero1 = Hero("Wonder Woman", 1000)
     # hero2 = Hero("Dumbledore", 1000)
-    ability1 = Ability("Super Speed", 300)
+    # ability1 = Ability("Super Speed", 300)
     # ability2 = Ability("Super Eyes", 130)
     # ability3 = Ability("Wizard Wand", 80)
     # ability4 = Ability("Wizard Beard", 20)
-    hero1.add_ability(ability1)
+    # hero1.add_ability(ability1)
     # hero1.add_ability(ability2)
     # hero2.add_ability(ability3)
     # hero2.add_ability(ability4)
@@ -247,7 +320,14 @@ if __name__ == "__main__":
     # team.add_hero(hero1)
     # team.add_hero(hero2)
     # team.view_all_heroes()
-    test = []
-    test.append(hero1.name)
-    test.append(hero2.name)
-    print(test)
+    # test = []
+    # test.append(hero1.name)
+    # test.append(hero2.name)
+    # print(test)
+
+    if __name__ == "__main__":
+        arena = Arena()
+        arena.build_team_one()
+        arena.build_team_two()
+        arena.team_battle()
+        arena.show_stats()
